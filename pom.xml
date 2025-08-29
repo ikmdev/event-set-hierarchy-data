@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>dev.ikm.build</groupId>
+		<artifactId>parent</artifactId>
+		<version>1.63.0</version>
+	</parent>
+
+	<groupId>dev.ikm.data.esh</groupId>
+	<artifactId>esh-data</artifactId>
+	<version>${revision}</version>
+	<packaging>pom</packaging>
+
+	<name>Event Set Hierarchy Data</name>
+	<description>Event Set Hierarchy Data Packaging Project</description>
+	<url>https://www.ikm.dev</url>
+
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+			<comments>A business-friendly OSS license</comments>
+		</license>
+	</licenses>
+
+	<developers>
+		<!-- OSSRH Related Developer (Start) -->
+		<developer>
+			<id>ikmdev</id>
+			<name>IKM Development Team</name>
+			<email>support@ikm.dev</email>
+		</developer>
+		<!-- OSSRH Related Developer (End) -->
+	</developers>
+
+	<scm>
+		<connection>scm:git:git://github.com/ikmdev/event-set-hierarchy-data.git</connection>
+		<developerConnection>scm:git:ssh://github.com:ikmdev/event-set-hierarchy-data.git</developerConnection>
+		<url>http://www.github.com/ikmdev/event-set-hierarchy-data</url>
+	</scm>
+
+	<properties>
+		<maven.build.timestamp.format>yyyyMMdd</maven.build.timestamp.format>
+		<revision>${maven.build.timestamp}-SNAPSHOT</revision>
+		<!-- Tinkar Starter Data Properties -->
+		<tinkar-starter-data.groupId>dev.ikm.data.tinkar</tinkar-starter-data.groupId>
+		<tinkar-starter-data.artifactId>tinkar-starter-data</tinkar-starter-data.artifactId>
+		<tinkar-starter-data.version>20250827</tinkar-starter-data.version>
+		<!-- Plugin Versions -->
+		<tinkar-maven-artifacts.version>1.35.0</tinkar-maven-artifacts.version>
+		<maven-dependency-plugin>3.8.1</maven-dependency-plugin>
+		<build-helper-maven-plugin.version>3.6.0</build-helper-maven-plugin.version>
+		<maven-assembly-plugin.version>3.7.1</maven-assembly-plugin.version>
+		<flatten-maven-plugin.version>1.7.2</flatten-maven-plugin.version>
+		<!-- Properties for Ease of Use -->
+		<data-artifact.prefix>${project.artifactId}-${project.version}</data-artifact.prefix>
+	</properties>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>dev.ikm.maven.tinkar</groupId>
+					<artifactId>tinkar-maven-plugin</artifactId>
+					<version>${tinkar-maven-artifacts.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-dependency-plugin</artifactId>
+					<version>${maven-dependency-plugin}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<version>${build-helper-maven-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<version>${maven-assembly-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>dev.ikm</groupId>
+					<artifactId>gitflow-maven-plugin</artifactId>
+					<configuration>
+						<commitMessages>
+							<releaseFinishMessage>Set new development version</releaseFinishMessage>
+						</commitMessages>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>flatten-maven-plugin</artifactId>
+					<version>${flatten-maven-plugin.version}</version>
+					<configuration>
+						<flattenMode>resolveCiFriendliesOnly</flattenMode>
+						<updatePomFile>true</updatePomFile>
+						<keepCommentsInPom>true</keepCommentsInPom>
+						<outputDirectory>${project.build.directory}</outputDirectory>
+					</configuration>
+				</plugin>
+				<!-- Skip Staging Plugin -->
+				<plugin>
+					<groupId>org.sonatype.central</groupId>
+					<artifactId>central-publishing-maven-plugin</artifactId>
+					<configuration>
+						<skipPublishing>true</skipPublishing>
+						<autoPublish>false</autoPublish>
+						<waitUntil>uploaded</waitUntil>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<!-- Attach reasoned and unreasoned exports to the artifact -->
+				<executions>
+					<execution>
+						<id>attach-artifacts</id>
+						<phase>package</phase>
+						<goals>
+							<goal>attach-artifact</goal>
+						</goals>
+						<configuration>
+							<artifacts>
+								<artifact>
+									<file>${project.build.directory}/${data-artifact.prefix}-reasoned-pb.zip</file>
+									<type>zip</type>
+									<classifier>reasoned-pb</classifier>
+								</artifact>
+								<artifact>
+									<file>${project.build.directory}/${data-artifact.prefix}-unreasoned-pb.zip</file>
+									<type>zip</type>
+									<classifier>unreasoned-pb</classifier>
+								</artifact>
+								<artifact>
+									<file>${project.build.directory}/${data-artifact.prefix}-reasoned-sa.zip</file>
+									<type>zip</type>
+									<classifier>reasoned-sa</classifier>
+								</artifact>
+								<artifact>
+									<file>${project.build.directory}/${data-artifact.prefix}-unreasoned-sa.zip</file>
+									<type>zip</type>
+									<classifier>unreasoned-sa</classifier>
+								</artifact>
+							</artifacts>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Prepare poms with revision versions for publishing -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>flatten-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>flatten</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>flatten</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Skip Enforcer Rule -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>enforce-no-bad-sections</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<!-- Don't enforce SemVer for this project -->
+							<rulesToSkip>requireProperty</rulesToSkip>
+							<failIfNoRules>false</failIfNoRules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>generateData</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-dependency-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>copy-starter-data-parent-dependency</id>
+								<phase>generate-sources</phase>
+								<goals>
+									<goal>copy</goal>
+								</goals>
+								<configuration>
+									<artifactItems>
+										<artifactItem>
+											<groupId>${tinkar-starter-data.groupId}</groupId>
+											<artifactId>${tinkar-starter-data.artifactId}</artifactId>
+											<version>${tinkar-starter-data.version}</version>
+											<classifier>unreasoned-pb</classifier>
+											<type>zip</type>
+											<overWrite>true</overWrite>
+											<outputDirectory>${project.build.directory}/input-data</outputDirectory>
+										</artifactItem>
+									</artifactItems>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>dev.ikm.maven.tinkar</groupId>
+						<artifactId>tinkar-maven-plugin</artifactId>
+						<executions>
+							<!-- Import Provided Data Resources -->
+							<execution>
+								<id>${project.artifactId}-import-data-resources</id>
+								<goals>
+									<goal>load-data</goal>
+								</goals>
+								<configuration>
+									<filesets>
+										<fileset>
+											<directory>${project.build.directory}/input-data</directory>
+											<includes>
+												<include>**pb.zip</include>
+												<include>**ike-cs.zip</include>
+											</includes>
+										</fileset>
+										<fileset>
+											<directory>src/main/resources</directory>
+											<includes>
+												<include>**pb.zip</include>
+												<include>**ike-cs.zip</include>
+											</includes>
+										</fileset>
+									</filesets>
+								</configuration>
+							</execution>
+							<!-- Export unreasoned data as a protocol buffers zip file -->
+							<execution>
+								<id>${project.artifactId}-unreasoned-export</id>
+								<phase>process-classes</phase>
+								<goals>
+									<goal>export-tinkar-data</goal>
+								</goals>
+								<configuration>
+									<unreasoned>true</unreasoned>
+									<fileName>${data-artifact.prefix}-unreasoned-pb.zip</fileName>
+								</configuration>
+							</execution>
+							<!-- Verify Unreasoned Export -->
+							<execution>
+								<id>${project.artifactId}-unreasoned-export-verification</id>
+								<phase>process-classes</phase>
+								<goals>
+									<goal>verify-export</goal>
+								</goals>
+								<configuration>
+									<dataStore>${project.build.directory}/datastore-unreasoned-verification</dataStore>
+									<filesets>
+										<fileset>
+											<directory>${project.build.directory}</directory>
+											<includes>
+												<include>${data-artifact.prefix}-unreasoned-pb.zip</include>
+											</includes>
+										</fileset>
+										<fileset>
+											<directory>${project.build.directory}/input-data</directory>
+											<includes>
+												<include>**pb.zip</include>
+												<include>**ike-cs.zip</include>
+											</includes>
+										</fileset>
+									</filesets>
+								</configuration>
+							</execution>
+							<!-- Load Unreasoned Export -->
+							<execution>
+								<id>${project.artifactId}-load-unreasoned-data</id>
+								<phase>process-classes</phase>
+								<goals>
+									<goal>load-data</goal>
+								</goals>
+								<configuration>
+									<dataStore>${project.build.directory}/datastore-reasoned</dataStore>
+									<filesets>
+										<fileset>
+											<directory>${project.build.directory}</directory>
+											<includes>
+												<include>${data-artifact.prefix}-unreasoned-pb.zip</include>
+											</includes>
+										</fileset>
+									</filesets>
+									<fileset>
+										<directory>${project.build.directory}/input-data</directory>
+										<includes>
+											<include>**pb.zip</include>
+											<include>**ike-cs.zip</include>
+										</includes>
+									</fileset>
+								</configuration>
+							</execution>
+							<!-- Run full reasoner -->
+							<execution>
+								<id>${project.artifactId}-full-reasoner</id>
+								<goals>
+									<goal>run-full-reasoner</goal>
+								</goals>
+								<configuration>
+									<dataStore>${project.build.directory}/datastore-reasoned</dataStore>
+								</configuration>
+							</execution>
+							<!-- Export reasoned data as a protocol buffers zip file -->
+							<execution>
+								<id>${project.artifactId}-reasoned-export</id>
+								<goals>
+									<goal>export-tinkar-data</goal>
+								</goals>
+								<configuration>
+									<dataStore>${project.build.directory}/datastore-reasoned</dataStore>
+									<exportDirectory>${project.build.directory}</exportDirectory>
+									<fileName>${data-artifact.prefix}-reasoned-pb.zip</fileName>
+								</configuration>
+							</execution>
+							<!-- Verify Reasoned Export -->
+							<execution>
+								<id>${project.artifactId}-reasoned-export-verification</id>
+								<goals>
+									<goal>verify-export</goal>
+								</goals>
+								<configuration>
+									<dataStore>${project.build.directory}/datastore-reasoned-verification</dataStore>
+									<filesets>
+										<fileset>
+											<directory>${project.build.directory}</directory>
+											<includes>
+												<include>${data-artifact.prefix}-reasoned-pb.zip</include>
+											</includes>
+										</fileset>
+										<fileset>
+											<directory>${project.build.directory}/input-data</directory>
+											<includes>
+												<include>**pb.zip</include>
+												<include>**ike-cs.zip</include>
+											</includes>
+										</fileset>
+									</filesets>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-assembly-plugin</artifactId>
+						<configuration>
+							<finalName>${data-artifact.prefix}</finalName>
+							<attach>false</attach> <!-- Must attach artifacts outside the profile for the automated build -->
+						</configuration>
+						<executions>
+							<!-- Zip up unreasoned spinedarray database -->
+							<execution>
+								<id>unreasoned-sa-zip</id>
+								<phase>process-classes</phase> <!-- Overriding default phase: force this execution before reasoning -->
+								<goals>
+									<goal>single</goal>
+								</goals>
+								<configuration>
+									<descriptors>
+										<descriptor>src/assembly/unreasoned-sa.xml</descriptor>
+									</descriptors>
+								</configuration>
+							</execution>
+							<!-- Zip up reasoned spinedarray database -->
+							<execution>
+								<phase>package</phase>
+								<id>reasoned-sa-zip</id>
+								<goals>
+									<goal>single</goal>
+								</goals>
+								<configuration>
+									<descriptors>
+										<descriptor>src/assembly/reasoned-sa.xml</descriptor>
+									</descriptors>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>localDeploy</id>
+			<distributionManagement>
+				<repository>
+					<id>local-release</id>
+					<name>Local Release Repository</name>
+					<url>file:${project.build.directory}/local_deploy_repo/release</url>
+				</repository>
+				<snapshotRepository>
+					<id>local-snapshot</id>
+					<name>Local SNAPSHOT Repository</name>
+					<url>file:${project.build.directory}/local_deploy_repo/snapshot</url>
+				</snapshotRepository>
+			</distributionManagement>
+		</profile>
+	</profiles>
+</project>
