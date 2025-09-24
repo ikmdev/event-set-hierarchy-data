@@ -1,7 +1,7 @@
 # Event Set Hierarchy Optimization 
 
 Description of the Project:
-The Event Set Hierarchy (ESH) Optimization project supports federal Electronic Health Record Modernization (EHRM) initiatives for data quality, informatics architecture, and clinical decision support.  The purpose of this project is to develop Integrated Knowledge Exchange (IKE) infrastructure so that Veterans Affairs (VA) ESH data can be imported into modern, third-party tooling for data analytics, automated reasoning, and design recommendations.  The expected outcome of this project will be a robust capability for optimizing and maintaining the Federal EHR Event Set Hierarchy within open-source knowledge based systems such as Komet (application developed by the Systemic Harmonization and Interoperability Enhancement for Laboratory Data (SHIELD) Collaborative).
+The Event Set Hierarchy (ESH) Optimization project supports federal Electronic Health Record Modernization (EHRM) initiatives for data quality, informatics architecture, and clinical decision support.  The purpose of this project is to develop Integrated Knowledge Environment (IKE) infrastructure so that Veterans Affairs (VA) ESH data can be imported into modern, third-party tooling for data analytics, automated reasoning, and design recommendations.  The expected outcome of this project will be a robust capability for optimizing and maintaining the Federal EHR Event Set Hierarchy within open-source knowledge based systems such as Komet (application developed by the Systemic Harmonization and Interoperability Enhancement for Laboratory Data (SHIELD) Collaborative).
 
 ## Getting Started
 
